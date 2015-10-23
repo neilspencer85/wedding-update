@@ -1,0 +1,241 @@
+body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #dedfe2;
+}
+
+/** {*/
+/*    outline: red 1px solid;*/
+/*}*/
+
+/*.delete{*/
+/*	cursor: pointer;*/
+/*}*/
+
+/*.delete:hover{*/
+/*	color: #000;*/
+/*}*/
+
+/*section{*/
+/*	display: inline-block;*/
+/*}*/
+
+h1 {
+    text-align: center;
+    font-family: 'Open Sans Condensed', serif;
+    font-size: 3em;
+}
+
+h2 {
+    font-family: 'Open Sans Condensed', serif;
+}
+
+errorh2 {
+    font-size: 2.6em;
+}
+
+.fancy {
+    text-align: center;
+    font-family: 'Tangerine', serif;
+    font-size: 48px;
+}
+
+label {
+	padding-top: 10px;
+    padding-bottom: 5px;
+    font-family: 'Open Sans Condensed', serif;
+    font-size: 15px;
+}
+
+/*button {*/
+/*	padding: 5px;*/
+/*}*/
+
+.loginForm {
+    width: 100%;
+}
+
+#logoutBtn {
+    position: relative;
+    right: 67px;
+    top: 47px;
+}
+
+.input-group {
+    width: 100%;
+}
+
+.date {
+    width: 40%;
+}
+
+.bigHeader {
+    background-color: #EB731F;   
+}
+
+.errorMsg {
+    color: red;
+    font-style: italic;
+}
+
+#topBar {
+    height: 235px;
+    width: 100%;
+    max-height: 500px;
+    /*background-color: #f78538;*/
+}
+
+.mainContent {
+    margin: 20px auto;
+    padding: 60px;
+    padding-top: 10px;
+    width: 80%;
+    height: auto;
+    background-color: white;
+    position: absolute;
+    top: 140px;
+    right: 10%;
+    z-index: 10;
+}
+
+.eventContent {
+    right: 5%;
+    width: 90%;
+}
+
+.login {
+    width: 60%;
+    right: 20%;
+    padding-top: 20px;
+}
+
+.navButtons {
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+.adminForm {
+    width: 65%;
+    margin: 0 auto;
+}
+
+.logo {
+    height: 120px;
+    width: 300px;
+    position: relative;
+    top: 50px;
+    left: 10px;
+}
+
+#buttons {
+    background-color: #d35d0e;
+    color: white;
+    opacity: .8;
+}
+
+.photo {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    box-shadow: 3px 3px 15px #bbbbbb;
+}
+
+.photoGrid {
+    width: 90%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.photoContainer {
+    width: 95%;
+    margin: 0 auto;
+}
+
+/*.eventBtns {*/
+/*    margin: 20px;*/
+/*}*/
+
+.checkboxes {
+    /*position: relative;*/
+    /*bottom: 45px;*/
+    /*color: white;*/
+}
+
+.menu {
+    position: relative;
+    right: 40px;
+    top: 30px;
+}
+
+.navBar {
+    width: 100%;
+}
+
+.eventBtns {
+    position: relative;
+    top: 52px;
+    right: 30px;
+    margin-right: 20px;
+}
+
+#select, #deselect, #delete, #settings, #closeExportModal {
+    background-color: #d35d0e;
+    width: 133px;
+}
+
+.eventHeader {
+    margin-bottom: 5px;
+}
+
+.numberHeader {
+    margin-bottom: none;
+}
+
+.deleteDialog {
+	width: 60%;
+	margin: 0 auto;
+	min-width: 285px;
+}
+
+#dialogHeader {
+	color: white;
+}
+
+#dialogHeaderButton {
+	color: white; 
+	font-size: 36px;
+	margin-top: 7px;
+}
+
+.warningHeader {
+    background-color: red;
+}
+
+.photoModal {
+    width: 60%;
+}
+
+.modalPhoto {
+    height: 60%;
+    width: auto;
+}
+
+.modalHeader {
+    background-color: #448AFF;
+}
+
+/* Rules for sizing icons */
+.md-18 { font-size: 18px; }
+.md-24 { font-size: 24px; }
+.md-36 { font-size: 36px; }
+.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background */
+.md-dark { color: rgba(0, 0, 0, 0.54); }
+.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background */
+.md-light { color: rgba(255, 255, 255, 1); }
+.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }}

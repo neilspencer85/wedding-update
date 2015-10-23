@@ -1,0 +1,30 @@
+<div class='deleteDialog'>
+  <md-dialog>
+    <form>
+      <!-- header -->
+   		<md-toolbar>
+        <div class="md-toolbar-tools warningHeader">
+          <h2 id='dialogHeader'>Delete Event</h2>
+          <span flex></span>
+          <md-button class="md-icon-button" ng-click="closeDialog()">
+            <i class="material-icons" id='dialogHeaderButton'>&#xE14C;</i>
+          </md-button>
+        </div>
+      </md-toolbar>
+
+      <!-- Content -->
+      <div layout-padding>
+        <p>Are you sure you want to delete this Event?!? This action cannot be reversed!</p>
+      </div>
+
+      <!-- Buttons -->
+      <div class="md-actions" layout="row">
+        <span flex></span> <!-- pushes buttons to the right side of the dialog box -->
+        <md-button ng-click="closeDialog()" class="md-primary">
+          Cancel
+        </md-button>
+        <md-button class='md-primary' ng-click='deleteEventDialog()'>Delete Event</md-button>
+      </div>
+    </form>
+  </md-dialog>
+</div>

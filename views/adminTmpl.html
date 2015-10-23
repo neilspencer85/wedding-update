@@ -1,0 +1,50 @@
+	<!--<h4> Admin page to create a new event or view photos from a past event.</h4>-->
+<md-toolbar class="md-tall md-primary" id="topBar" layout="row" layout-align="start start">
+    <h2 class="md-toolbar-tools">
+        <img class="logo" href="/admin" src="assets/img/FotoFly-Logo.png" alt="FotoFly Logo"/>
+    </h2>
+    <span flex></span>
+    <md-button class="md-primary" ng-click="logout()" id="logoutBtn">Logout</md-button>
+</md-toolbar>
+<md-whiteframe class="md-whiteframe-z3 mainContent" layout="column" layout-align="center center">
+	<h1>FotoFly Events</h1>
+	<form class='adminForm'>
+		<h2>Create New Event</h2>
+		<span class='errorMsg'>{{ createEventError }}</span>
+		<div class="input-group">
+			<label for="name">Event Name</label>
+			<input required class="form-control" type="text" name="name" ng-model="event.name" placeholder="Enter Event Name" size="40">
+		</div>
+		<div class="input-group">
+			<label for="key">Event Code</label>
+			<input required class="form-control" type="text" name="key" ng-model="event.key" placeholder="Event Code must be unique" size="40">
+		</div>
+		<div class="date">
+			<label for="eventDate">Date</label>
+			<input required class="form-control" type="date" name="eventDate" ng-model="event.eventDate" size="40">
+		</div>
+		<div class="input-group">
+			<label for="fbAdmin"> Add an Administration Passowrd</label>
+			<input class="form-control" type="text" name="fbAdmin" ng-model="event.fbAdmin" placeholder="Enter passcode for the admin to enter on the event" size="23">
+		</div>
+<!-- 		<div class="input-group">
+			<label for="instaAdmin">Instagram Account for Admin</label>
+			<input required class="form-control" type="text" name="instaAdmin" ng-model="event.instaAdmin" placeholder="Enter Instagram User Name" size="23">
+		</div> -->
+		<br/>
+		<md-button type='submit' id="buttons" class="md-raised md-primary" ng-click="newEvent(event)">Submit</md-button>
+	</form>
+	<br>
+	<br>
+	
+	<form class='adminForm'>
+		<h2>View Event</h2>
+		<span class='errorMsg'>{{ getEventError }}</span>
+			<div class="input-group">
+				<label for="id">Event Code</label>
+				<input required class="form-control" type="text" name="id" ng-model="event.id" placeholder="Enter Event Code" size="35">
+			</div>
+			<br>
+		<md-button type='submit' id="buttons" class="md-raised md-primary" ng-click="getEvent(event.id)">Submit</md-button>
+	</form>	
+</md-whiteframe>

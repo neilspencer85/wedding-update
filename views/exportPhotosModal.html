@@ -1,0 +1,24 @@
+<div class='deleteDialog'>
+  <md-dialog>
+      <!-- header -->
+   	  <md-toolbar>
+        <div class="md-toolbar-tools md-accent modalHeader">
+          <h1 id="dialogHeader">Photos downloading...</h1>
+          <span flex></span>
+        </div>
+      </md-toolbar>
+
+      <!-- Content -->
+      <div layout="column" layout-align="center center" ng-hide="progress > 0">
+          <h2>Please wait while we fetch your photos...</h2>
+      </div>
+      <div layout="row" layout-align="center center" ng-show="progress < 100">
+          <md-progress-circular class="md-accent" md-mode="determinate" value="{{ progress }}"></md-progress-circular>
+          <h2>Percent Complete: {{ progress }}%</h2>
+      </div>
+      <div layout="column" layout-align="center center" ng-show="progress === 100">
+          <h2>Photo download complete!</h2>
+          <md-button class="md-raised md-accent" ng-click="closeDialog()">Close</md-button>
+      </div>
+  </md-dialog>
+</div>

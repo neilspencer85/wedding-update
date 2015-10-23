@@ -1,0 +1,28 @@
+{
+  "name": "FotoFly Events",
+  "version": "0.1.0",
+  "homepage": "https://github.com/dustinmyers/wedding-page",
+  "authors": [
+    "Dustin Myers <dustint314@gmail.com>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-bootstrap": "~0.13.4",
+    "angular-bootstrap-lightbox": "~0.9.0",
+    "angular-material": "~0.11.0",
+    "angular-ui-router": "ui-router#~0.2.15",
+    "file-saver.js": "~1.20150507.2",
+    "jquery": "~2.1.4",
+    "jszip": "Stuk/jszip#~2.5.0",
+    "parse-angular-patch": "~0.1.2",
+    "ui-bootstrap": "~0.13.4"
+  }
+}
