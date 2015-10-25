@@ -1,30 +1,31 @@
-app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$location', 'isAuthed', '$mdDialog', 'Lightbox', 
+app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$location', 'isAuthed', '$mdDialog', 'Lightbox',
     function($scope, $stateParams, eventService, $location, isAuthed, $mdDialog, Lightbox) {
-    
+
     if(!isAuthed) {
         $location.path('/login');
     }
-    
-    
+
+
     // run an IIFE to get the event from the database. Event comes to this controller as "res" in the callback funtion.
     // You have routed here, so you have access to the eventId via $stateParams.eventId -see app.js
     // This is the Id you will use to query the database for that id.
-    // Then set whatever you need to the $scope object so you can call it in the html with {{ }}. 
+    // Then set whatever you need to the $scope object so you can call it in the html with {{ }}.
     (function getEvent() {
         eventService.getEventWithId($stateParams.eventId).then(function(res){
             $scope.event = res[0].attributes.key;
             $scope.eventId = res[0].id;
         });
     }());
-    
+
     $scope.openLightboxModal = function (index) {
         Lightbox.openModal($scope.images, index);
     };
-    
+
     $scope.getPhotos =function() {
+        console.log('StateParamsId', $stateParams.eventId)
         eventService.getPhotos($stateParams.eventId).then(function(res) {
             console.log("GetPhotos: ", res);
-            $scope.photos = res;
+            $scope.photos = res || [];
             $scope.numberOfPhotos = $scope.photos.length;
             $scope.originalImages = [];
             $scope.images = [];
@@ -47,9 +48,9 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
             console.log($scope.originalImages, $scope.images);
         });
     };
-    
+
     $scope.getPhotos();
-    
+
     $scope.openPhotoModal = function(i) {
         $scope.modalPhoto = $scope.photos[i].attributes.thumbnailImage._url;
         $mdDialog.show({
@@ -64,11 +65,11 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
 	  	    console.log("dialog res: ", res);
 	  	});
     };
-    
+
     var selectedPhotos = [];
-    
+
     $scope.checked = true;
-    
+
     $scope.imgSelect = function(index) {
         console.log("index from checkbox: ", index);
         console.log("indexOf: ", selectedPhotos.indexOf(index));
@@ -81,17 +82,17 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
         }
         console.log("Photos array after splice: ", selectedPhotos);
     };
-    
+
     $scope.exists = function (index) {
         return (!$scope.checked);
     };
-    
+
     $scope.logout = function() {
         Parse.User.logOut();
         console.log("logout");
         $location.path('/login');
     };
-    
+
     $scope.deleteEvent = function(ev) {
         console.log("delete event clicked");
 	    $mdDialog.show({
@@ -107,7 +108,7 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
 	  	    console.log("dialog res: ", res);
 	  	});
     };
-    
+
     $scope.deletePhotos = function(ev) {
         console.log("deletePhotos clicked");
         if (selectedPhotos.length > 0) {
@@ -117,7 +118,7 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
     	        preserveScope: true,
     	        parent: angular.element(document.body),
     	        clickOutsideToClose: true,
-    	        title: 'Delete Event',
+    	        title: 'Delete Photos',
     	        templateUrl: 'views/deletePhotosDialog.html',
     	        targetEvent: ev
     	  	}).then(function(res) {
@@ -131,7 +132,7 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
                 //     });
                 // });
     	  	}, function(err) {
-    	  	   console.log(err); 
+    	  	   console.log(err);
     	  	});
         } else {
             $mdDialog.show({
@@ -154,14 +155,14 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
                 //     });
                 // });
     	  	}, function(err) {
-    	  	   console.log(err); 
+    	  	   console.log(err);
     	  	});
         }
     };
-    
-    
+
+
     function DialogController($scope, $mdDialog) {
-    
+
           $scope.deleteEventDialog = function() {
             console.log("deleteEvent inside dialog clicked");
 		  	$mdDialog.hide();
@@ -172,8 +173,10 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
                 }
             });
 		  };
-		  
+
 		  $scope.deletePhotoSelection = function() {
+            console.log('Delete Photos button clicked')
+            $mdDialog.hide();
 		    eventService.deletePhotos(selectedPhotos).then(function(res) {
               console.log("deletePhotos res: ", res);
               $scope.getPhotos();
@@ -183,15 +186,15 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
               });
             });
 		  };
-		  
-		  
-		  // closes Dialog - called from all Dialogs		  
+
+
+		  // closes Dialog - called from all Dialogs
 		  $scope.closeDialog = function() {
 		    $mdDialog.hide();
 		  };
-		  
+
     }
-    
+
     $scope.exportPhotos = function(ev) {
         $scope.progress;
         $mdDialog.show({
@@ -221,7 +224,7 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
             $scope.progress = Math.floor(notify);
         });
     };
-    
+
     // $scope.btnScroll = function() {
     //   function fixDiv() {
     //     var $cache = $('#eventBtns');
@@ -238,9 +241,9 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
     //   $(window).scroll(fixDiv);
     //   fixDiv();
     // };
-    
+
     // $scope.btnScroll();
-    
-    
-    
+
+
+
 }]); //End EventCtrl

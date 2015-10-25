@@ -1,19 +1,19 @@
 app.service('eventService', ['$http', '$q', function($http, $q) {
-    
+
     var event;
-    
+
     this.createEvent = function(event) {
         var dfr = $q.defer();
         var EventObject = Parse.Object.extend("Event");
         var eventObject = new EventObject();
-    
+
         eventObject.set("name", event.name);
         eventObject.set("key", event.key);
         eventObject.set("eventDate", event.eventDate);
         eventObject.set("fbAdmin", event.fbAdmin);
         eventObject.set("instaAdmin", event.instaAdmin);
         eventObject.set("createdAt", event.date);
-        
+
         eventObject.save(null, {
             success : function(addEvent) {
                 dfr.resolve(addEvent);
@@ -24,7 +24,7 @@ app.service('eventService', ['$http', '$q', function($http, $q) {
         });
         return dfr.promise;
     };
-    
+
     this.getEventWithId = function(id) {
         var dfr = $q.defer();
         var Event = Parse.Object.extend("Event");
@@ -41,7 +41,7 @@ app.service('eventService', ['$http', '$q', function($http, $q) {
         });
         return dfr.promise;
     };
-    
+
     this.getEvent = function(id) {
         var dfr = $q.defer();
         var Event = Parse.Object.extend("Event");
@@ -58,25 +58,29 @@ app.service('eventService', ['$http', '$q', function($http, $q) {
         });
         return dfr.promise;
     };
-    
+
     this.sendEvent = function() {
         return event;
     };
-    
+
     this.getPhotos = function(id) {
+      console.log('getPhotosId', id)
       var i;
       var dfr = $q.defer();
       var Event = Parse.Object.extend("Event");
       var query = new Parse.Query(Event);
-      query.equalTo("key", id);
+      console.log('ParseQuery', query)
+      query.equalTo("objectId", id);
       query.include('photos');
       query.find({
         success: function(event) {
+          console.log('getphotosEvent', event)
           var photos = event[0].attributes.photos;
-          for (i = photos.length; i >= 0; i -= 1) {
-            if (photos[i] === null) {
-              photos.splice(i, 1);
-              
+          if(photos){
+            for (i = photos.length; i >= 0; i -= 1) {
+              if (photos[i] === null) {
+                photos.splice(i, 1);
+              }
             }
           }
           dfr.resolve(photos);
@@ -86,29 +90,39 @@ app.service('eventService', ['$http', '$q', function($http, $q) {
       });
       return dfr.promise;
     };
-    
+
     this.sendEvent = function() {
         return this.event;
     };
-    
+
     this.deleteEvent = function(id) {
       var dfr = $q.defer();
+      var eventId = id;
         var Event = Parse.Object.extend("Event");
         var query = new Parse.Query(Event);
         query.get(id, {
           success: function(eventObj) {
             var str = "It was deleted";
+            console.log(eventObj);
+            var photosToDelete = eventObj.attributes.photos || []
+            for (var i = 0; i < photosToDelete.length; i++) {
+
+              thisPhoto = photosToDelete[i];
+              thisPhoto.destroy({});
+            }
             eventObj.destroy({});
             dfr.resolve(str);
+
           },
           error: function(object, error) {
-            dfr.resolve(error);  
+            dfr.resolve(error);
           }
         });
-      return dfr.promise; 
+      return dfr.promise;
     };
-    
+
     this.deletePhotos = function(selectedPhotos) {
+      console.log(selectedPhotos);
       var dfr = $q.defer();
       for (var i = 0; i < selectedPhotos.length; i += 1) {
         var Photo = Parse.Object.extend("Photo");
@@ -120,48 +134,48 @@ app.service('eventService', ['$http', '$q', function($http, $q) {
             dfr.resolve(str);
           },
           error: function(object, error) {
-            dfr.resolve(error);  
+            dfr.resolve(error);
           }
         });
       }
-      return dfr.promise; 
+      return dfr.promise;
     };
-    
+
     this.getZipPhotos = function(eventId, photoIdArray) {
-      
+
       var dfd = $q.defer();
       var promiseArray = [];
       var Photo = Parse.Object.extend("Photo");
       var query = new Parse.Query(Photo);
       var notifyLength = photoIdArray.length;
       var count = 1;
-      
+
       photoIdArray.forEach(function(val, i, arr){
-        
+
         promiseArray.push(query.get(val).then(function(res){
           var dfdd = $q.defer();
           var photoId = res.attributes.midResolutionImage.url().replace('http', 'https');
-          
+
           Parse.Cloud.run('getPhotos', {url: photoId}).then(function(worked){
             dfdd.resolve(worked);
             dfd.notify((count/notifyLength) * 100);
             count++;
           }, function(notworked){
-           dfdd.reject(notworked); 
+           dfdd.reject(notworked);
           });
-          
+
           return dfdd.promise;
         }));
       });
-      
+
       $q.all(promiseArray).then(function(res){
         dfd.resolve(res);
       }, function(err){
         dfd.reject(err);
       });
-      
+
       return dfd.promise;
-      
+
     };
-    
+
 }]); //End AdminCtrl
