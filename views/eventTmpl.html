@@ -6,7 +6,7 @@
     <md-button class="md-primary" ng-click="logout()" id="logoutBtn">Logout</md-button>
 </md-toolbar>
 <md-whiteframe class="md-whiteframe-z3 mainContent eventContent" layout="column" layout-align="center center">
-	<div ng-if="!photos" layout="column" layout-align="center center">
+	<div ng-if="photos.length === 0" layout="column" layout-align="center center">
 		<br><br>
 		<h1 class="eventHeader">Event Code: {{ event }}</h1>
 		<br><br>
@@ -18,7 +18,7 @@
 			<md-button class="md-raised md-primary" ng-click="deleteEvent($event)" id="delete">Delete Event</md-button>
 		</div>
 	</div>
-	<div ng-if="photos" layout="column" layout-align="center center">
+	<div ng-if="photos.length > 0" layout="column" layout-align="center center">
 		<h1 class="eventHeader">Event Code: {{ event }}</h1>
 		<h3 class="numberHeader">Number of Photos: {{ numberOfPhotos }}</h3>
 		<div layout="row">
@@ -27,7 +27,7 @@
 				<md-button class="md-raised md-primary" ng-click="exportPhotos($event)" id="select">Export All</md-button>
 				<md-button class="md-raised md-primary" ng-click="deletePhotos()" id="deselect">Delete Photos</md-button>
 				<md-button class="md-raised md-primary" ng-click="deleteEvent($event)" id="delete">Delete Event</md-button>
-			</div>	
+			</div>
 			<div class="photoGrid" layout="row" layout-wrap layout-margin layout-align="start start">
 				<div class='photoContainer' ng-repeat='photo in photos' flex-gt-lg="20" flex-lg="25" flex-md="33" flex-sm='95'>
 					<md-checkbox class="checkboxes" ng-model="photo.selected" ng-click="imgSelect(photo.id)" aria-label="Checkbox 1"></md-checkbox>

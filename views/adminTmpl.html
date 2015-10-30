@@ -24,7 +24,7 @@
 			<input required class="form-control" type="date" name="eventDate" ng-model="event.eventDate" size="40">
 		</div>
 		<div class="input-group">
-			<label for="fbAdmin"> Add an Administration Passowrd</label>
+			<label for="fbAdmin"> Add an Administration Password</label>
 			<input class="form-control" type="text" name="fbAdmin" ng-model="event.fbAdmin" placeholder="Enter passcode for the admin to enter on the event" size="23">
 		</div>
 <!-- 		<div class="input-group">
@@ -36,7 +36,7 @@
 	</form>
 	<br>
 	<br>
-	
+
 	<form class='adminForm'>
 		<h2>View Event</h2>
 		<span class='errorMsg'>{{ getEventError }}</span>
@@ -46,5 +46,5 @@
 			</div>
 			<br>
 		<md-button type='submit' id="buttons" class="md-raised md-primary" ng-click="getEvent(event.id)">Submit</md-button>
-	</form>	
+	</form>
 </md-whiteframe>
