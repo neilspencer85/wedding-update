@@ -18,40 +18,46 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
     }());
 
     $scope.openLightboxModal = function (index) {
-        Lightbox.openModal($scope.images, index);
+        Lightbox.openModal($scope.imageUrls, index);
     };
 
     $scope.getPhotos =function() {
-        console.log('StateParamsId', $stateParams.eventId)
+        // console.log('StateParamsId', $stateParams.eventId)
         eventService.getPhotos($stateParams.eventId).then(function(res) {
-            console.log("GetPhotos: ", res);
+            // console.log("GetPhotos: ", res);
             $scope.photos = res || [];
             $scope.numberOfPhotos = $scope.photos.length;
             $scope.originalImages = [];
             $scope.images = [];
+            $scope.imageUrls = [];
             for(var i = 0; i < $scope.photos.length; i += 1) {
                 var imageObj = {};
                 if($scope.photos[i].attributes.thumbnailImage._url) {
                     imageObj.thumbImage = $scope.photos[i].attributes.thumbnailImage._url;
                 }
-                if($scope.photos[i].attributes.originalImage) {
-                    var photoUrl = $scope.photos[i].id;
-                    $scope.originalImages.push(photoUrl);
-                    imageObj.url = photoUrl;
+                if ($scope.photos[i].attributes.originalImage) {
+                    var photoId = $scope.photos[i].id;
+                    var photoUrl = $scope.photos[i].attributes.originalImage._url;
+                    $scope.imageUrls[i] = photoUrl;
+                    $scope.originalImages.push(photoId);
+                    imageObj.url = photoId;
                 } else {
-                    var photoUrl2 = $scope.photos[i].id;
-                    $scope.originalImages.push(photoUrl2);
-                    imageObj.url = photoUrl2;
+                    var photoId2 = $scope.photos[i].id;
+                    var photoUrl2 = $scope.photos[i].attributes.midResolutionImage ? $scope.photos[i].attributes.midResolutionImage._url : $scope.photos[i].attributes.thumbnailImage._url;
+                    $scope.imageUrls[i] = photoUrl2;
+                    $scope.originalImages.push(photoId2);
+                    imageObj.url = photoId2;
                 }
                 $scope.images.push(imageObj);
             }
-            console.log($scope.originalImages, $scope.images);
+            // console.log($scope.originalImages, $scope.images);
         });
     };
 
     $scope.getPhotos();
 
-    $scope.openPhotoModal = function(i) {
+    $scope.openPhotoModal = function (i) {
+        // console.log(i);
         $scope.modalPhoto = $scope.photos[i].attributes.thumbnailImage._url;
         $mdDialog.show({
 	        controller: DialogController,
@@ -62,7 +68,7 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
 	        title: 'Photo',
 	        templateUrl: 'views/modalPhotoDialog.html'
 	  	}).then(function(res) {
-	  	    console.log("dialog res: ", res);
+	  	    // console.log("dialog res: ", res);
 	  	});
     };
 
@@ -71,16 +77,16 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
     $scope.checked = true;
 
     $scope.imgSelect = function(index) {
-        console.log("index from checkbox: ", index);
-        console.log("indexOf: ", selectedPhotos.indexOf(index));
+        // console.log("index from checkbox: ", index);
+        // console.log("indexOf: ", selectedPhotos.indexOf(index));
         if (selectedPhotos.indexOf(index) === -1) {
             selectedPhotos.push(index);
-            console.log("Photos array after push: ", selectedPhotos);
+            // console.log("Photos array after push: ", selectedPhotos);
         }
         else {
             selectedPhotos.splice((selectedPhotos.indexOf(index)), 1);
         }
-        console.log("Photos array after splice: ", selectedPhotos);
+        // console.log("Photos array after splice: ", selectedPhotos);
     };
 
     $scope.exists = function (index) {
@@ -89,12 +95,12 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
 
     $scope.logout = function() {
         Parse.User.logOut();
-        console.log("logout");
+        // console.log("logout");
         $location.path('/login');
     };
 
     $scope.deleteEvent = function(ev) {
-        console.log("delete event clicked");
+        // console.log("delete event clicked");
 	    $mdDialog.show({
 	        controller: DialogController,
 	        scope: $scope,
@@ -105,12 +111,12 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
 	        templateUrl: 'views/deleteEventDialog.html',
 	        targetEvent: ev
 	  	}).then(function(res) {
-	  	    console.log("dialog res: ", res);
+	  	    // console.log("dialog res: ", res);
 	  	});
     };
 
     $scope.deletePhotos = function(ev) {
-        console.log("deletePhotos clicked");
+        // console.log("deletePhotos clicked");
         if (selectedPhotos.length > 0) {
             $mdDialog.show({
     	        controller: DialogController,
@@ -122,7 +128,7 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
     	        templateUrl: 'views/deletePhotosDialog.html',
     	        targetEvent: ev
     	  	}).then(function(res) {
-    	  	    console.log("dialog res: ", res);
+    	  	    // console.log("dialog res: ", res);
                 // eventService.deletePhotos(selectedPhotos).then(function(res) {
                 //     console.log("deletePhotos res: ", res);
                 //     $scope.getPhotos();
@@ -145,7 +151,7 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
     	        templateUrl: 'views/deletePhotosDialogError.html',
     	        targetEvent: ev
     	  	}).then(function(res) {
-    	  	    console.log("dialog res: ", res);
+    	  	    // console.log("dialog res: ", res);
                 // eventService.deletePhotos(selectedPhotos).then(function(res) {
                 //     console.log("deletePhotos res: ", res);
                 //     $scope.getPhotos();
@@ -164,10 +170,10 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
     function DialogController($scope, $mdDialog) {
 
           $scope.deleteEventDialog = function() {
-            console.log("deleteEvent inside dialog clicked");
+            // console.log("deleteEvent inside dialog clicked");
 		  	$mdDialog.hide();
 		  	eventService.deleteEvent($scope.eventId).then(function(res) {
-		  	    console.log("it was deleted");
+		  	    // console.log("it was deleted");
                 if (res === "It was deleted") {
                     $location.path('/admin');
                 }
@@ -175,10 +181,10 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
 		  };
 
 		  $scope.deletePhotoSelection = function() {
-            console.log('Delete Photos button clicked')
+            // console.log('Delete Photos button clicked')
             $mdDialog.hide();
 		    eventService.deletePhotos(selectedPhotos).then(function(res) {
-              console.log("deletePhotos res: ", res);
+            //   console.log("deletePhotos res: ", res);
               $scope.getPhotos();
               $scope.checkbox = false;
               angular.forEach($scope.photos, function (photo) {
@@ -212,9 +218,10 @@ app.controller('EventCtrl', ['$scope', '$stateParams', 'eventService', '$locatio
         var zip = new JSZip();
         // var photoZip = zip.folder("Event Images");
         eventService.getZipPhotos($stateParams.eventId, $scope.originalImages).then(function(res) {
-            console.log("res: ", res);
+            // console.log("res: ", res);
             res.forEach(function(val, i, arr){
-                zip.file(("Event Photo " + (i + 1)) + '.jpg', val.buffer, {base64:true});
+                zip.file(("Event Photo " + (i + 1)) + '.jpg', val.buffer, { base64: true });
+                // console.log(file);
             });
             var zipper = zip.generate({type: "blob"});
             saveAs(zipper, "photos.zip");

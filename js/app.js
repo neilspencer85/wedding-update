@@ -1,8 +1,12 @@
 Parse.initialize("pv2dMyXIqGOj7YefpKKmCBSVQCbZo4cjQp9FQCC1", "PrqgGnvbM0q09YsOTnQTUkS7JlzjXJg1OG4oUxjT");
 
-var app = angular.module('Fotofly', ['ui.router', 'ngAnimate', 'ngMaterial', 'ui.bootstrap', 'bootstrapLightbox','parse-angular']);
+var app = angular.module('Fotofly', ['ui.router', 'ngAnimate', 'ngMaterial', 'ui.bootstrap', 'bootstrapLightbox'
+    // , 'parse-angular'
+]);
 
-    app.config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider', function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider', 'LightboxProvider', function ($stateProvider, $urlRouterProvider, $mdThemingProvider, LightboxProvider) {
+        
+    // LightboxProvider.templateUrl = 'views/exportPhotosModal.html';
   	
   	$mdThemingProvider.theme('default')
         .primaryPalette('grey', {
@@ -109,6 +113,10 @@ var app = angular.module('Fotofly', ['ui.router', 'ngAnimate', 'ngMaterial', 'ui
         });
         
 }]); // end .config
+
+app.run(function () {
+    Parse.initialize('pv2dMyXIqGOj7YefpKKmCBSVQCbZo4cjQp9FQCC1', 'PrqgGnvbM0q09YsOTnQTUkS7JlzjXJg1OG4oUxjT');
+})
         
         
 // var newEvent = Parse.Object.extend("newEvent");
